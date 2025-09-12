@@ -1,0 +1,59 @@
+/* 컨테이너 */
+.filterContainer { padding: 32px 0; }
+
+/* 헤더 영역 */
+.filterHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.topBtn {
+  height: 48px;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+/* 칩 영역 */
+.chipRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.chip { height: 32px; font-size: 14px; }
+
+/* 결과 카드 */
+.resultPaper { overflow: hidden; }
+.resultHeader {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.resultActions .MuiButton-root + .MuiButton-root { margin-left: 8px; }
+
+.thBold { font-weight: 700 !important; }
+.noRows { padding: 48px 0; }
+
+/* 다이얼로그 */
+.dialogTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dialogGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 600px) {
+  .dialogGrid { grid-template-columns: 1fr; }
+}
+.dialogActions .MuiButton-root {
+  height: 44px;
+  font-size: 16px;
+  white-space: nowrap;
+}
+.applyBtn { font-weight: 700; }
