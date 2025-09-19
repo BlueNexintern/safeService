@@ -18,3 +18,17 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/service-worker.js') // public 폴더의 sw.js
+      .then((registration) => {
+        console.log('SW 등록 성공:', registration.scope);
+      })
+      .catch((error) => {
+        console.error('SW 등록 실패:', error);
+      });
+  });
+}
