@@ -1,202 +1,270 @@
-import React, { useMemo, useState } from "react";
+import React, { useRef, useState } from "react";
+import { Eye } from "lucide-react";
+import { motion } from "framer-motion";
 import "./NoticePage.css";
 
-const CATEGORY = [
-  { value: "사업장", details: ["부산1공장", "부산2공장", "김해지점"] },
-  { value: "안전", details: ["작업허가", "교육공지", "장비점검"] },
-  { value: "인사", details: ["채용", "휴가", "복지"] },
-];
+// 문자열 안전 변환 (NaN 등 방지)
+const toStr = (v) => (typeof v === "string" ? v : v == null ? "" : String(v));
+
+function validatePayload({ title, content }) {
+  const titleOk = typeof title === "string" && title.trim().length > 0;
+  const contentOk = typeof content === "string" && content.trim().length > 0;
+  return { titleOk, contentOk, valid: titleOk && contentOk };
+}
+
+function PreviewItem({ label, children, className = "" }) {
+  return (
+    <div className={`preview-item ${className}`}>
+      <strong className="preview-label">{label}</strong>
+      <div className="preview-value">{children}</div>
+    </div>
+  );
+}
 
 export default function NoticePage() {
   const [title, setTitle] = useState("");
   const [endDate, setEndDate] = useState("");
   const [category, setCategory] = useState("");
-  const [detail, setDetail] = useState("");
+  const [subcategory, setSubcategory] = useState("");
   const [content, setContent] = useState("");
-  const [touched, setTouched] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [touched, setTouched] = useState({ title: false, content: false });
 
-  const titleErr = touched.title && title.trim().length === 0;
-  const contentErr = touched.content && content.trim().length === 0;
+  const endDateRef = useRef(null);
 
-  const details = useMemo(() => {
-    const found = CATEGORY.find(c => c.value === category);
-    return found ? found.details : [];
-  }, [category]);
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    setTouched({ title: true, content: true });
-    
-    if (title.trim() && content.trim()) {
-      setIsSubmitting(true);
-      
-      // 실제 저장 로직 시뮬레이션
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      alert("저장되었습니다.");
-      setIsSubmitting(false);
-    }
+  const categories = {
+    공지: ["일반", "긴급", "변경"],
+    행사: ["세미나", "워크숍", "설명회"],
+    학사: ["수업", "시험", "휴·보강"],
   };
 
-  const handleCancel = () => {
-    if (title.trim() || content.trim()) {
-      if (window.confirm("작성 중인 내용이 있습니다. 정말 취소하시겠습니까?")) {
-        window.history.back();
+  const subOptions = categories[category] ?? [];
+  const isTitleError = touched.title && title.trim() === "";
+  const isContentError = touched.content && content.trim() === "";
+
+  const filled = [title, endDate, category, subcategory, content]
+    .map(toStr)
+    .filter((v) => v.trim() !== "").length;
+  const progress = Math.round((filled / 5) * 100) || 0;
+
+  const reset = () => {
+    setTitle("");
+    setEndDate("");
+    setCategory("");
+    setSubcategory("");
+    setContent("");
+    setTouched({ title: false, content: false });
+  };
+
+  const onSave = (e) => {
+    e.preventDefault();
+    setTouched({ title: true, content: true });
+    const { valid } = validatePayload({ title, content });
+    if (!valid) return;
+
+    const payload = { title, endDate, category, subcategory, content };
+    console.log("Saving notice:", payload);
+    alert("저장되었습니다. 콘솔에서 payload를 확인하세요.");
+  };
+
+  const openDatePicker = () => {
+    const el = endDateRef.current;
+    if (!el) return;
+    try {
+      el.focus();
+      if (typeof el.showPicker === "function") {
+        try {
+          el.showPicker();
+          return;
+        } catch {}
       }
-    } else {
-      window.history.back();
-    }
+      el.click();
+    } catch {}
   };
 
   return (
-    <form className="card grid" onSubmit={onSubmit} noValidate>
-      <div className="col-main">
-        {/* 제목 */}
-        <div className={`field ${titleErr ? "error" : ""}`}>
-          <label htmlFor="title">
-            <span className="req">*</span> 제목
-          </label>
-          <div className="input-with-counter">
-            <input
-              id="title"
-              type="text"
-              maxLength={120}
-              placeholder="예: 9월 안전점검 일정 안내"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              onBlur={() => setTouched((t) => ({ ...t, title: true }))}
-              aria-invalid={titleErr}
-              aria-describedby="titleHelp"
-            />
-            <span className="counter">{title.length}/120</span>
-          </div>
-          {titleErr && (
-            <p id="titleHelp" className="help error-text">
-              필수 입력 항목입니다.
-            </p>
-          )}
+    <div className="notice-container">
+      <div className="progress-wrapper">
+        <div className="progress-labels">
+          <span>작성 진행도</span>
+          <span>{progress}%</span>
         </div>
-
-        {/* 구분 / 구분 상세 */}
-        <div className="row-2">
-          <div className="field">
-            <label htmlFor="cat">구분</label>
-            <select
-              id="cat"
-              value={category}
-              onChange={(e) => {
-                setCategory(e.target.value);
-                setDetail("");
-              }}
-            >
-              <option value="">선택하세요</option>
-              {CATEGORY.map((c) => (
-                <option key={c.value} value={c.value}>
-                  {c.value}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className={`field ${!category ? "disabled" : ""}`}>
-            <label htmlFor="detail">구분 상세</label>
-            <select
-              id="detail"
-              value={detail}
-              onChange={(e) => setDetail(e.target.value)}
-              disabled={!category}
-            >
-              <option value="">
-                {category ? "상세를 선택하세요" : "먼저 구분을 선택하세요"}
-              </option>
-              {details.map((d) => (
-                <option key={d} value={d}>
-                  {d}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        {/* 내용 */}
-        <div className={`field ${contentErr ? "error" : ""}`}>
-          <label htmlFor="content">
-            <span className="req">*</span> 내용
-          </label>
-          <div className="textarea-wrap">
-            <textarea
-              id="content"
-              rows={10}
-              maxLength={1000}
-              placeholder={`예: 
-- 점검 기간: 9/20(월)~9/22(수)
-- 대상: 부산1공장 전 라인
-- 유의사항: 점검 중 설비 가동 제한`}
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              onBlur={() => setTouched((t) => ({ ...t, content: true }))}
-              aria-invalid={contentErr}
-              aria-describedby="contentHelp"
-            />
-            <span className="counter">{content.length}/1000</span>
-          </div>
-          {contentErr && (
-            <p id="contentHelp" className="help error-text">
-              필수 입력 항목입니다.
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* 사이드(종료일 + 미리보기) */}
-      <aside className="col-side">
-        <div className="field">
-          <label htmlFor="end">종료일</label>
-          <input
-            id="end"
-            type="date"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
+        <div className="progress-bar">
+          <motion.div
+            className="progress-fill"
+            initial={{ width: 0 }}
+            animate={{ width: `${progress}%` }}
           />
-          <p className="help">미설정 시 공지가 계속 노출됩니다.</p>
         </div>
+      </div>
 
-        <div className="preview">
-          <h3>미리보기</h3>
-          <h4>{title || "제목 미입력"}</h4>
-          <p className="muted">
-            {category || "구분 없음"}
-            {detail ? ` · ${detail}` : ""}
-            {endDate ? ` · 종료 ${endDate}` : ""}
-          </p>
-          <div className="preview-body">
-            {(content || "내용이 없습니다.").split("\n").map((ln, i) => (
-              <p key={i}>{ln || "\u00A0"}</p>
-            ))}
+      <form onSubmit={onSave} className="form-wrapper">
+        {/* 첫 줄: 제목 / 종료일 */}
+        <div className="grid-row">
+          <div className="grid-left">
+            <label>
+              제목 <span className="required">*</span>
+            </label>
+            <div className="field-with-count">
+              <input
+                type="text"
+                value={title}
+                maxLength={120}
+                onChange={(e) => setTitle(e.target.value ?? "")}
+                onBlur={() => setTouched((t) => ({ ...t, title: true }))}
+                placeholder="예: 9월 안전점검 일정 안내"
+                className={isTitleError ? "input-error" : "input-normal"}
+              />
+              <span className="char-count">{toStr(title).length}/120</span>
+            </div>
+            {isTitleError && <p className="error-msg">필수 입력 항목입니다.</p>}
+          </div>
+
+          <div
+            className="grid-right"
+            onClick={openDatePicker}
+            role="button"
+            tabIndex={0}
+          >
+            <label>종료일</label>
+            <input
+              ref={endDateRef}
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value ?? "")}
+              className="input-normal"
+              min={new Date().toISOString().split("T")[0]}
+            />
+            <p className="helper-text">미설정시 공지가 계속 노출됩니다.</p>
           </div>
         </div>
-      </aside>
 
-      {/* 고정 하단 액션 */}
-      <div className="sticky-actions">
-        <button 
-          type="button" 
-          className="btn ghost" 
-          onClick={handleCancel}
-          disabled={isSubmitting}
-        >
-          취소
-        </button>
-        <div className="spacer" />
-        <button 
-          type="submit" 
-          className="btn primary"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? "저장 중..." : "저장"}
-        </button>
-      </div>
-    </form>
+        {/* 둘째 줄: 구분/구분상세 + 미리보기 */}
+        <div className="grid-row">
+          <div className="grid-left">
+            <div className="dropdown-row">
+              <div>
+                <label>구분</label>
+                <select
+                  value={category}
+                  onChange={(e) => {
+                    setCategory(e.target.value ?? "");
+                    setSubcategory("");
+                  }}
+                  className="input-normal"
+                >
+                  <option value="">선택하세요</option>
+                  {Object.keys(categories).map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label>구분 상세</label>
+                <select
+                  value={subcategory}
+                  onChange={(e) => setSubcategory(e.target.value ?? "")}
+                  className="input-normal"
+                >
+                  <option value="">
+                    {category ? "선택하세요" : "먼저 구분을 선택해주세요"}
+                  </option>
+                  {subOptions.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* 내용 입력 */}
+            <div className="mt-4">
+              <label>
+                내용 <span className="required">*</span>
+              </label>
+              <div className="field-with-count">
+                <textarea
+                  value={content ?? ""}
+                  maxLength={1000}
+                  onChange={(e) => setContent(e.target.value ?? "")}
+                  onBlur={() => setTouched((t) => ({ ...t, content: true }))}
+                  placeholder={`예:\n- 점검 기간: 9/20(월)~9/22(수)\n- 대상: 부산1공장 전 라인\n- 유의사항: 점검 중 설비 가동 제한`}
+                  rows={12}
+                  className={isContentError ? "input-error" : "input-normal"}
+                />
+                <span className="char-count">{toStr(content).length}/1000</span>
+              </div>
+              {isContentError && (
+                <p className="error-msg">필수 입력 항목입니다.</p>
+              )}
+            </div>
+          </div>
+
+          {/* 미리보기 */}
+          <div className="grid-right preview-box">
+            <div className="preview-header">
+              <Eye size={18} />
+              <h3>미리보기</h3>
+            </div>
+
+            <div className="preview-content">
+              {/* 제목 */}
+              {toStr(title) ? (
+                <PreviewItem label="제목" className="pv-shift-4">
+                  {toStr(title)}
+                </PreviewItem>
+              ) : (
+                <div className="preview-title-empty">제목 미입력</div>
+              )}
+
+              {/* ✅ 종료일 (추가) */}
+              {toStr(endDate) && (
+                <PreviewItem label="종료일" className="pv-shift-4">
+                  {toStr(endDate)}
+                </PreviewItem>
+              )}
+
+              {/* 구분/구분상세 */}
+              {toStr(category) || toStr(subcategory) ? (
+                <div className="preview-row">
+                  {toStr(category) && (
+                    <PreviewItem label="구분" className="pv-shift-4">
+                      {toStr(category)}
+                    </PreviewItem>
+                  )}
+                  {toStr(subcategory) && (
+                    <PreviewItem label="구분 상세">
+                      {toStr(subcategory)}
+                    </PreviewItem>
+                  )}
+                </div>
+              ) : (
+                <div className="preview-badge muted">구분 없음</div>
+              )}
+
+              {/* 내용 */}
+              <div className="preview-item preview-text_label">
+                <strong className="preview-label">내용</strong>
+                <div className="preview-value">
+                  {toStr(content) ? toStr(content) : "내용이 없습니다."}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 하단 버튼 */}
+        <div className="footer-row">
+          <button type="button" onClick={reset} className="btn-cancel">
+            취소
+          </button>
+          <button type="submit" className="btn-save">
+            저장
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
