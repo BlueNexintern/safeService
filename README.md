@@ -31,7 +31,8 @@ React 기반으로 개발한 안전 관리 서비스의 일부 화면을 PWA + C
 
 
 
-- 마이페이지에서 사용자의 자신의 정보와 싸인을 남겨놓을 수 있도록 페이지 구현
+- 마이페이지에서 사용자의 자신의 정보와 싸인을 남겨놓을 수 있도록 페이지 구현 
+  - 단, 이 기능은 사용자에게 앱으로 제공되기에 앱으로 개발 필요
 <p align="center">
   <img src="./image/mypage_mosaic.png" width="100%"><br/>
   <sub>그림 3. 기존 프로필 화면</sub>
@@ -112,6 +113,7 @@ React 기반으로 개발한 안전 관리 서비스의 일부 화면을 PWA + C
 </p>
 
 ### 마이페이지 개발 결과
+- 웹 형태
   <p align="center">
   <img src="./image/result/third_moasic1.png" width="100%"><br/>
   <img src="./image/result/third_moasic2.png" width="100%"><br/>
@@ -123,6 +125,21 @@ React 기반으로 개발한 안전 관리 서비스의 일부 화면을 PWA + C
   <img src="./image/result/third_moasic6.png" width="100%"><br/>
 </p>
 
+- 앱 형태
+<p align>
+  <img src="./image/result/phone/third_phone_moasic2.png" width="49%" height="40%">
+  <img src="./image/result/phone/third_phone_moasic3.png" width="49%" height="40%">
 
+</p>
 
+<p align>
+  <img src="./image/result/phone/third_phone_moasic4.png" width="49%" height="40%" />
+  <img src="./image/result/phone/third_phone_moasic5.png" width="49%" height="40%" />
+  <img src="./image/result/phone/third_phone_moasic6.png" width="49%" 
+  height="40%" />
+  <img src="./image/result/phone/third_phone_moasic7.png" width="49%"
+  height="40%" />
+  <img src="./image/result/phone/third_phone_moasic8.png" width="49%" 
+  height="40%"/>
+</p>
 
