@@ -1,0 +1,560 @@
+.notice-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.progress-wrapper {
+  margin-bottom: 24px;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.progress-bar {
+  width: 100%;
+  background: #e5e7eb;
+  border-radius: 9999px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%; /* 부모의 높이(8px) 따라감 */
+  border-radius: inherit; /* 둥근 모서리 유지 */
+  background: linear-gradient(90deg, #98FCBD 0%, #9CDAF8 100%);
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.grid-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 16px;
+  align-items: start; /* 기존 스타일 유지 */
+}
+
+.grid-left {
+  min-width: 0; /* ← 이거 꼭 추가! 긴 내용/줄바꿈 때문에 칼럼이 밀려나는 것을 방지 */
+}
+
+
+.grid-left select {
+  height: auto;
+  min-height: 0;
+}
+
+/* ✅ 내용 textarea만 높이 키우기 (1.5배 예: 480px) */
+.mt-4 textarea {
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
+  min-height: 480px; /* 원하는 값으로 조절 */
+  max-width: 100%;
+}
+
+
+
+.grid-right {
+  min-width: 0;
+  align-self: start; /* 기존 스타일 유지 */
+}
+
+.grid-right input[type="date"] {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input-normal {
+  border: 1px solid #d1d5db;
+  border-radius: 16px;
+  padding: 12px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s;
+  margin-top: 10px;
+}
+
+.input-normal:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 2px #bbf7d0;
+}
+
+.input-error {
+  border: 1px solid #ef4444;
+  border-radius: 16px;
+  padding: 12px;
+  font-size: 14px;
+  outline: none;
+}
+
+.error-msg {
+  font-size: 12px;
+  color: #ef4444;
+  margin-top: 4px;
+}
+
+.required {
+  color: #ef4444;
+}
+
+.input_form_text{
+  margin-top: 20px;
+  
+}
+
+.helper-text {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0px;
+  padding-left: 10px; 
+}
+
+/* 미리보기 */
+.preview-box {
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 16px;
+  background: #fff;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  margin-left: 10px; 
+}
+
+
+.preview-content {
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.preview-text {
+  max-height: 200px;
+  overflow: auto;
+  background: #f9fafb;
+
+  border-radius: 8px;
+
+}
+
+.preview-row {
+  display: flex;
+  gap: 16px; /* 구분과 구분상세 사이 여백 */
+  align-items: center;
+  flex-wrap: wrap; /* 좁은 화면이면 줄바꿈 허용 */
+}
+
+.footer-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+  /* 오른쪽 미리보기(360px) + 그리드 간격(16px) 제외한 너비만 사용 */
+  width: calc(100% - (360px + 16px));
+}
+
+.btn-cancel {
+  border: 1px solid #d1d5db;
+  background: #fff;
+  padding: 10px 20px;
+  border-radius: 16px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background: #f9fafb;
+}
+
+.btn-save {
+  background: #22c55e;
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none; /* 혹시 기본 border도 있을 경우 제거 */
+  outline: none;
+}
+
+.btn-save:hover {
+  background: #16a34a;
+}
+
+.btn-save:focus {
+  outline: none; /* ✅ 포커스시에도 안 보이게 */
+}
+
+.dropdown-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 1:1 같은 폭 */
+  gap: 16px; /* 두 칸 사이 간격 */
+  width: 100%; /* 부모 grid-left 전체 너비 차지 */
+  margin-bottom: 20px;
+}
+
+.dropdown-row select {
+  width: 100%;
+}
+
+/* 제목 입력폼 가로폭 늘리기 */
+.grid-left input[type="text"] {
+  width: 100%; /* 왼쪽 칼럼 전체 폭 사용 */
+  box-sizing: border-box;
+  display: block;
+  margin-top: 10px;
+}
+
+/* 라벨-값 한 쌍 기본 레이아웃 */
+.preview-item {
+  display: flex; /* flex로 유연한 정렬 */
+  align-items: flex-start; /* 상단 정렬 */
+  gap: 6px; /* 라벨과 값 사이 간격 */
+}
+
+/* 라벨 스타일 */
+.preview-label {
+  flex: 0 100 350 px; /* 라벨 최소 너비, 필요에 따라 조절 */
+  font-weight: 600;
+  color: #374151;
+  text-align: left; /* 오른쪽 정렬 제거, 필요하면 유지 */
+}
+
+/* 값 스타일 */
+.preview-value {
+  flex: 1; /* 남은 공간 채우기 */
+  white-space: pre-wrap; /* 사용자 줄바꿈 유지 */
+  overflow-wrap: anywhere; /* 긴 단어/URL 강제 줄바꿈 */
+  word-break: break-word;
+}
+
+.mt-4 textarea {
+  margin-top: 10px;   /* ← 원하는 값으로 조절 */
+}
+
+
+/* '내용' 섹션 스타일 */
+.preview-item.preview-text {
+  display: block; /* 내용은 별도 박스로 유지 */
+  background: #f9fafb;
+  padding: 12px;
+  border-radius: 8px;
+  max-height: 200px;
+  overflow: auto;
+  margin-top: 4px;
+}
+
+/* .notice-container 내 기존 스타일 덮어쓰기 */
+.notice-container .preview-item {
+  display: flex; /* flex 유지 */
+}
+
+.notice-container .preview-label {
+  display: block; /* inline-block 대신 block */
+  width: auto; /* 고정 너비 제거 */
+  text-align: left; /* 오른쪽 정렬 제거 */
+}
+
+.notice-container .preview-value {
+  display: block; /* inline-block 대신 block */
+  width: auto; /* 고정 너비 제거 */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* 폼 라벨 + 미리보기 라벨만 볼드 */
+.grid-left label,
+.grid-right label /* 미리보기에서 <strong>제목:</strong> 같은 라벨 */
+{
+  font-weight: 600;
+  color: #374151; /* 선택사항: 라벨 톤 통일 */
+margin-left: 4px;
+  margin-top: 10p;
+}
+
+.preview-label{
+margin-left: 4px;
+  margin-top: 10p;
+}
+
+
+
+/* ✅ '내용'만 왼쪽에 바로 붙게: 라벨/값을 한 칼럼으로 쌓기 */
+.notice-container .preview-item.preview-text {
+  display: block !important;              /* 2열 그리드 해제 */
+  background: #f9fafb;
+  padding: 12px;
+  border-radius: 8px;
+  max-height: 200px;
+  overflow: auto;
+}
+
+/* 라벨은 위, 왼쪽 정렬 */
+.notice-container .preview-item.preview-text .preview-label {
+  display: block !important;
+  justify-self: start !important;
+  text-align: left !important;
+  margin-bottom: 3px;                     /* 라벨과 본문 사이 간격 */
+}
+
+.preview-text_label{
+  margin-left: 1px;
+}
+
+
+/* 🔹 '내용' 라벨은 위쪽에, 박스 밖에 위치 */
+.preview-item.preview-text_label {
+
+}
+
+/* 라벨은 박스 밖 */
+.preview-item.preview-text_label .preview-label {
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 0px 0;
+  
+  
+}
+
+/* .preview-item.preview-text_label .preview-label {
+  color: #111827;
+  font-weight: 700;
+} */
+
+/* 값은 박스 안 */
+.preview-item.preview-text_label .preview-value {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;   /* stroke */
+  border-radius: 8px;
+  margin-left: 0px;
+
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+
+  line-height: 1.5;
+  max-height: calc(1.5em * 10); /* 10줄까지만 보여주고 */
+  overflow: auto;               /* 넘치면 스크롤 */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* (선택) 스크롤바 얇게 */
+.preview-item.preview-text_label .preview-value::-webkit-scrollbar {
+  width: 6px;
+}
+.preview-item.preview-text_label .preview-value::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 9999px;
+}
+
+/* 값은 라벨 아래에서 왼쪽 시작 */
+.notice-container .preview-item.preview-text .preview-value {
+  display: block !important;
+  min-width: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.char-counter {
+  font-size: 12px;
+  color: #6b7280;      /* 회색 톤 */
+  margin-top: 4px;
+  text-align: right;   /* 우측 정렬 (원하면 left로 변경) */
+}
+
+.grid-left label{
+  margin-bottom: 10px;
+    margin-left: 0;
+
+}
+/* === 카드 톤 & 섀도우(전체 컨테이너) === */
+.notice-container {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+}
+
+/* === 공통 입력 톤(둥근모서리 + 은은한 섀도우) === */
+.input-normal,
+.input-error,
+.grid-left select,
+.grid-right input[type="date"],
+textarea {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 0 rgba(16,24,40,0.02), 0 1px 2px rgba(16,24,40,0.06);
+}
+
+/* 포커스 링 */
+.input-normal:focus,
+.grid-left select:focus,
+.grid-right input[type="date"]:focus,
+textarea:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.18);
+}
+
+/* === 글자수 카운터 공통 === */
+.field-with-count { position: relative; }
+.field-with-count .char-count {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  font-size: 12px;
+  color: #9aa3af;
+  pointer-events: none;
+}
+.field-with-count > input[type="text"] {
+  height: 44px;
+  padding-right: 64px; /* 카운터 자리 */
+}
+.field-with-count > textarea {
+  min-height: 280px;   /* 스샷처럼 넉넉하게 */
+  padding-right: 64px; /* 카운터 자리 */
+  resize: vertical;
+  border: 1px solid #e5e7eb;
+}
+
+/* === 프리뷰 박스(스샷 톤) === */
+.preview-box {
+  background: #f8fafc;
+  border: 1px dashed #e2e8f0;
+  border-radius: 16px;
+  padding: 16px;
+  min-height: 240px; /* 기존 높이 유지 */
+}
+.preview-header {
+  margin: 0 0 8px 0;   /* 왼쪽 들여쓰기 제거 */
+  gap: 8px;
+}
+.preview-header h3 { margin: 0; }
+
+/* 제목 비어있을 때 스타일 */
+.preview-title-empty {
+  font-weight: 700;
+  color: #111827;
+}
+
+/* 구분 없음 뱃지 */
+.preview-badge.muted {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #6b7280;
+}
+.preview-badge.muted::before {
+  content: "📄";
+  font-size: 14px;
+}
+
+/* '내용' 라벨은 박스 밖, 값만 박스 안 */
+.preview-item.preview-text_label {
+  display: flex;
+  flex-direction: column;
+  margin-top: 6px;
+}
+
+.preview-item.preview-text_label .preview-value {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px;
+  line-height: 1.5;
+  max-height: calc(1.5em * 9);  /* 10줄까지만 보여주고 */
+  overflow: auto;                 /* 넘치면 스크롤 */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 스크롤바 얇게 */
+.preview-item.preview-text_label .preview-value::-webkit-scrollbar { width: 6px; }
+.preview-item.preview-text_label .preview-value::-webkit-scrollbar-thumb {
+  background: #d1d5db; border-radius: 9999px;
+}
+
+/* 버튼 톤 업데이트 */
+.btn-cancel {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+  border-radius: 12px;
+  transition: background .15s ease;
+}
+.btn-cancel:hover { background: #f3f4f6; }
+
+.btn-save {
+  background: #2ea665;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-weight: 700;
+}
+.btn-save:hover { background: #279659; }
+
+/* 라벨 톤 */
+.grid-left label, .grid-right label { font-weight: 700; color: #111827; }
+.helper-text { color: #9aa3af; }
+
+/* 2번째 줄(구분/구분상세 ↔ 미리보기) 정렬용 오프셋 */
+.form-wrapper .grid-row:nth-of-type(2) {
+  --miribogi-align-offset: 10px;  /* <- 여기 숫자만 6~14px 사이로 미세조정 */
+}
+
+.form-wrapper .grid-row:nth-of-type(2) .grid-left {
+  transform: translateY(-20px); /* -4 ~ -12px 조절 */
+}
+
+/* 2번째 줄의 미리보기 박스만 살짝 ↓ */
+.form-wrapper .grid-row:nth-of-type(2) .preview-box {
+  margin-top: 13px; /* ← 4~12px 사이로 미세 조정 */
+}
+
+/* 제목/구분만 살짝 왼쪽으로 4px 이동 */
+.preview-box .pv-shift-4 {
+  transform: translateX(-4px);
+}
+
+.preview-box .pv-shift-4 {
+  transform: translateX(-4px);
+}
+.preview-box .preview-item.preview-text_label {
+  margin-top: 0 !important;    /* 기존 6px을 0으로(간격 확 줄이기) */
+  /* 필요하면 더 올리기 */
+  /* margin-top: -4px !important; */
+}
+
+
+/* 구분상세 select가 활성화되어 있지만 값이 비어 있을 때 글자색 회색 처리 */
+.input-normal.is-placeholder { color: #9ca3af; }
+
+
+/* ===== 폼 라벨(제목/종료일/구분/구분상세/내용)만 오른쪽으로 살짝 이동 ===== */
+/* 기존 margin-left를 초기화하고 padding-left로 들여쓰기 */
+.grid-left label,
+.grid-left .dropdown-row label,
+.grid-left .mt-4 > label,
+.grid-right > label {
+  margin-left: 0;      /* 기존 4px 등 오프셋 제거 */
+  padding-left: 8px;   /* ← 여기 값(예: 4~10px)으로 미세 조정 */
+}
+
